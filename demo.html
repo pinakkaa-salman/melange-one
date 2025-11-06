@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Concentric Rings Background</title>
+  <style>
+    :root{
+      /* tune these to control circle sizes and spacing */
+      --ring-1: 10vmin;   /* smallest visible circle radius */
+      --ring-2: 20vmin;
+      --ring-3: 30vmin;
+      --ring-4: 40vmin;
+      --ring-5: 52vmin;
+      --ring-6: 66vmin;   /* largest outer ring */
+      --bg-dark: #070707; /* main background */
+      --edge-dark: #050505;/* left vertical darker bar */
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+    }
+
+    /* full-screen canvas */
+    .canvas{
+      min-height:100vh;
+      background: var(--bg-dark);
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start; /* content sits left like the photo */
+    }
+
+    /* left vertical darker strip (like image) */
+    .canvas::before{
+      content:"";
+      position:absolute;
+      left:6vmin; /* distance from left edge */
+      top:0;
+      bottom:0;
+      width:9vmin; /* thickness of the dark strip */
+      background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.95));
+      z-index:5;
+      pointer-events:none;
+    }
+
+    /*
+      Concentric rings are made with several radial-gradients stacked as the
+      element's background. Each radial gradient is centered at the right side
+      (100% 50%) so the circles appear cut off along the right edge like the image.
+    */
+    .rings{
+      position:absolute;
+      inset:0; /* cover whole canvas */
+      z-index:1;
+      pointer-events:none;
+      /* stack of radial gradients => inner-most listed first */
+      background-image:
+        /* inner circle (lightest) */
+        radial-gradient(circle at 100% 50%,
+          rgba(180,170,170,0.30) 0 calc(var(--ring-1) - 0.5vmin),
+          rgba(180,170,170,0.18) calc(var(--ring-1) - 0.5vmin) calc(var(--ring-1) + 3vmin),
+          transparent calc(var(--ring-1) + 3vmin)
+        ),
+        /* next ring */
+        radial-gradient(circle at 100% 50%,
+          rgba(160,150,150,0.22) 0 calc(var(--ring-2) - 0.5vmin),
+          rgba(160,150,150,0.14) calc(var(--ring-2) - 0.5vmin) calc(var(--ring-2) + 3vmin),
+          transparent calc(var(--ring-2) + 3vmin)
+        ),
+        /* middle ring */
+        radial-gradient(circle at 100% 50%,
+          rgba(140,130,130,0.20) 0 calc(var(--ring-3) - 0.5vmin),
+          rgba(140,130,130,0.12) calc(var(--ring-3) - 0.5vmin) calc(var(--ring-3) + 3vmin),
+          transparent calc(var(--ring-3) + 3vmin)
+        ),
+        /* next */
+        radial-gradient(circle at 100% 50%,
+          rgba(120,115,115,0.18) 0 calc(var(--ring-4) - 0.5vmin),
+          rgba(120,115,115,0.10) calc(var(--ring-4) - 0.5vmin) calc(var(--ring-4) + 3vmin),
+          transparent calc(var(--ring-4) + 3vmin)
+        ),
+        /* large outer rings */
+        radial-gradient(circle at 100% 50%,
+          rgba(100,96,96,0.20) 0 calc(var(--ring-5) - 0.5vmin),
+          rgba(100,96,96,0.12) calc(var(--ring-5) - 0.5vmin) calc(var(--ring-5) + 3vmin),
+          transparent calc(var(--ring-5) + 3vmin)
+        ),
+        radial-gradient(circle at 100% 50%,
+          rgba(80,78,78,0.24) 0 calc(var(--ring-6) - 0.5vmin),
+          rgba(80,78,78,0.14) calc(var(--ring-6) - 0.5vmin) calc(var(--ring-6) + 3vmin),
+          transparent calc(var(--ring-6) + 3vmin)
+        );
+      background-repeat:no-repeat;
+      background-position: 0 0;
+      background-size: cover;
+      mix-blend-mode: normal;
+      filter: blur(0.2px); /* tiny blur for soft edges */
+    }
+
+    /* optional content area on the left so you can place text or cards */
+    .content{
+      position:relative;
+      z-index:10;
+      width:64%;
+      max-width:1200px;
+      padding:6vmin;
+      color:#eee;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    h1{
+      margin:0 0 1rem 0;
+      font-size:clamp(2rem,4vw,3.6rem);
+      font-weight:600;
+      letter-spacing: -0.02em;
+    }
+    p{opacity:0.7; margin:0; line-height:1.5;}
+    /* responsive tweaks to keep rings large on small screens */
+    @media (max-width:600px){
+      :root{
+        --ring-1: 12vmin;
+        --ring-2: 26vmin;
+        --ring-3: 38vmin;
+        --ring-4: 50vmin;
+        --ring-5: 66vmin;
+        --ring-6: 86vmin;
+      }
+      .canvas::before{ left:4vmin; width:12vmin; }
+      .content{ width:78%; padding:5vmin; }
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas" role="img" aria-label="Dark background with concentric soft rings on the right">
+    <div class="rings" aria-hidden="true"></div>
+
+    <div class="content">
+      <h1>Concentric Rings — right side</h1>
+      <p>This layout recreates the image with stacked radial gradients centered at the right edge. Tweak the <code>--ring-*</code> variables in :root to change ring sizes and spacing.</p>
+    </div>
+  </div>
+</body>
+</html>

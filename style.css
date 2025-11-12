@@ -975,7 +975,8 @@ p {
   font-size: 10px;
   font-weight: 400;
   font-family: "Inter", sans-serif;
-  color: #6e6563;
+  /* color: #6e6563; */
+  color: #fff;
   text-align: center;
 }
 .amenities-card-title-black {
@@ -2840,7 +2841,7 @@ p {
     .amenities-card-title,
     .amenities-card-title-black {
       font-size: 13px;
-      font-weight: bold;
+      font-weight: 400;
     }
   
     .amenities-arrows {
@@ -3996,325 +3997,238 @@ p {
 }
 
 
-.spec-main-container {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 60px 20px;
-  /* background: #fff; */
+
+
+
+
+.spec-slider-section {
+  /* background: linear-gradient(135deg, #e8f1f5 0%, #f5f9fb 100%); */
+  /* padding: 60px 20px; */
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  font-family: "Inter", sans-serif;
 }
 
-.spec-main-title {
+.spec-slider-title {
   text-align: center;
-  font-size: 42px;
+  color: #2c5f7f;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 60px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-.spec-category-wrapper {
   margin-bottom: 50px;
-}
-
-.spec-category-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.spec-category-title {
-  font-size: 28px;
-  font-weight: 500;
-  color: #fff;
-  margin-bottom: 10px;
-  letter-spacing: 1.5px;
-  font-family: "Montaga", serif;
-}
-
-.spec-category-divider {
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, #3498db, #2ecc71);
-  margin: 0 auto;
-  display: none;
+  letter-spacing: 2px;
 }
 
 .spec-slider-container {
+  max-width: 1400px;
+  margin: 0 auto;
   position: relative;
   padding: 0 60px;
 }
 
-.spec-slider-track {
+.spec-slider-wrapper {
   overflow: hidden;
   position: relative;
 }
 
-.spec-slider-wrapper {
+.spec-slider-track {
   display: flex;
-  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  gap: 20px;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 30px;
 }
 
-.spec-slide-item {
-  min-width: calc((100% - 80px) / 5);
+.spec-slider-card {
+  min-width: calc(5% - 22.5px);
+  background: white;
+  border-radius: 20px;
+  padding: 15px 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex-shrink: 0;
 }
 
-.spec-card {
-  /* background: #ffffff; */
-  border-radius: 16px;
-  padding: 40px 25px;
-  text-align: center;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 350px;
-}
-
-.spec-card:hover {
+.spec-slider-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
-.spec-icon-container {
-  width: 60px;
-  height: 60px;
+.spec-card-icon {
+  width: 80px;
+  height: 80px;
   margin: 0 auto 25px;
-  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-  background-color: #BDA69E;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
-  color: white;
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.spec-card-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: #2c5f7f;
+  stroke-width: 1.5;
+  fill: none;
 }
 
 .spec-card-title {
-  font-size: 20px;
+  text-align: center;
+  color: #000;
+  font-size: 1.4rem;
   font-weight: 600;
-  color: #fff;
-  margin-bottom: 15px;
-  line-height: 1.4;
-  font-family: "Inter", sans-serif;
+  margin-bottom: 5px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e8f1f5;
 }
 
-.spec-card-description {
-  font-size: 12px;
-  color: #7f8c8d;
-  line-height: 1.6;
-  font-family: "Inter", sans-serif;
+.spec-card-list {
+  list-style: none;
 }
 
-.spec-nav-btn {
+.spec-card-list li {
+  color: #000000b7;
+  font-size: 0.45rem;
+  line-height: 1.8;
+  padding: 4px 0;
+  padding-left: 25px;
+  position: relative;
+}
+
+.spec-card-list li::before {
+  content: "■";
+  color: #000;
+  position: absolute;
+  left: 0;
+  font-size: 0.8rem;
+  top: 0;
+}
+
+.spec-slider-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #ffffff;
-  border: 2px solid #e0e0e0;
+  background: white;
+  border: none;
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
   z-index: 10;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.spec-nav-btn:hover {
-  background: #BDA69E;
-  border-color: #BDA69E;
-  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+.spec-slider-btn:hover {
+  background: #2c5f7f;
+  transform: translateY(-50%) scale(1.1);
 }
 
-.spec-nav-btn:hover .spec-arrow {
-  border-color: white;
+.spec-slider-btn:hover svg {
+  stroke: white;
 }
 
-.spec-nav-btn.spec-prev {
+.spec-slider-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: #2c5f7f;
+  stroke-width: 2.5;
+  transition: stroke 0.3s ease;
+}
+
+.spec-slider-btn-prev {
   left: 0;
 }
 
-.spec-nav-btn.spec-next {
+.spec-slider-btn-next {
   right: 0;
 }
 
-.spec-arrow {
-  width: 12px;
-  height: 12px;
-  border-top: 3px solid #2c3e50;
-  border-right: 3px solid #2c3e50;
-  transition: border-color 0.3s ease;
-}
-
-.spec-arrow.spec-left {
-  transform: rotate(-135deg);
-  margin-left: 4px;
-}
-
-.spec-arrow.spec-right {
-  transform: rotate(45deg);
-  margin-right: 4px;
-}
-
-.spec-dots-container {
+.spec-slider-dots {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 30px;
-  display: none;
+  gap: 12px;
+  margin-top: 40px;
 }
 
-.spec-dot {
+.spec-slider-dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #ddd;
+  background: #c5d9e4;
   cursor: pointer;
   transition: all 0.3s ease;
+  border: none;
+  padding: 0;
 }
 
-.spec-dot.spec-active {
-  background: #3498db;
-  width: 30px;
+.spec-slider-dot.spec-active {
+  background: #2c5f7f;
+  width: 40px;
   border-radius: 6px;
 }
 
-/* Tablet Responsive */
-@media (max-width: 1024px) {
-  .spec-slide-item {
-      min-width: calc((100% - 40px) / 3);
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .spec-slider-card {
+      min-width: calc(33.333% - 20px);
   }
   
-  .spec-slider-wrapper {
-      gap: 15px;
+  .spec-slider-container {
+      padding: 0 50px;
   }
 }
 
 @media (max-width: 768px) {
-  .spec-slide-item {
-      min-width: calc((100% - 20px) / 2);
+  .spec-slider-card {
+      min-width: calc(50% - 15px);
   }
   
-  .spec-slider-wrapper {
-      gap: 15px;
+  .spec-slider-container {
+      padding: 0 45px;
   }
 
-  .spec-main-title {
-      font-size: 32px;
+  .spec-slider-title {
+      font-size: 2rem;
       margin-bottom: 40px;
   }
 
-  .spec-category-title {
-      font-size: 22px;
+  .spec-slider-btn {
+      width: 40px;
+      height: 40px;
   }
 
-  .spec-slider-container {
-      padding: 0 50px;
-  }
-
-  .spec-card {
-      padding: 30px 20px;
-  }
-
-  .spec-icon-container {
-      width: 90px;
-      height: 90px;
-      font-size: 36px;
-  }
-
-  .spec-card-title {
-      font-size: 18px;
-  }
-
-  .spec-card-description {
-      font-size: 13px;
-  }
-
-  .spec-nav-btn {
-      width: 45px;
-      height: 45px;
+  .spec-slider-btn svg {
+      width: 20px;
+      height: 20px;
   }
 }
 
-/* Mobile Responsive */
 @media (max-width: 480px) {
-  .spec-slide-item {
-      min-width: 100%;
-  }
-  
-  .spec-slider-wrapper {
-      gap: 0;
+  .spec-slider-card {
+      min-width: calc(100% - 0px);
   }
 
-  .spec-main-container {
-      padding: 40px 10px;
-  }
-
-  .spec-main-title {
-      font-size: 26px;
-      letter-spacing: 2px;
-      margin-bottom: 30px;
-  }
-
-  .spec-category-wrapper {
-      margin-bottom: 50px;
-  }
-
-  .spec-category-title {
-      font-size: 18px;
-      letter-spacing: 1px;
+  .spec-slider-track {
+      gap: 20px;
   }
 
   .spec-slider-container {
       padding: 0 40px;
   }
 
-  .spec-card {
-      padding: 25px 15px;
-  }
-
-  .spec-icon-container {
-      width: 80px;
-      height: 80px;
-      font-size: 32px;
-      margin-bottom: 20px;
+  .spec-slider-title {
+      font-size: 1.6rem;
   }
 
   .spec-card-title {
-      font-size: 17px;
-      margin-bottom: 12px;
+      font-size: 1.2rem;
   }
 
-  .spec-card-description {
-      font-size: 13px;
+  .spec-slider-section {
+      padding: 40px 15px;
   }
+}
 
-  .spec-nav-btn {
-      width: 40px;
-      height: 40px;
-  }
-
-  .spec-arrow {
-      width: 10px;
-      height: 10px;
-      border-width: 2px;
-  }
-
-  .spec-dot {
-      width: 10px;
-      height: 10px;
-  }
-
-  .spec-dot.spec-active {
-      width: 24px;
-  }
+.spec-main-icona{
+  height: 80px;
+  width: 80px;
 }

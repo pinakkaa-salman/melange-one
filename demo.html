@@ -1,146 +1,768 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Concentric Rings Background</title>
-  <style>
-    :root{
-      /* tune these to control circle sizes and spacing */
-      --ring-1: 10vmin;   /* smallest visible circle radius */
-      --ring-2: 20vmin;
-      --ring-3: 30vmin;
-      --ring-4: 40vmin;
-      --ring-5: 52vmin;
-      --ring-6: 66vmin;   /* largest outer ring */
-      --bg-dark: #070707; /* main background */
-      --edge-dark: #050505;/* left vertical darker bar */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specifications Section</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    html,body{
-      height:100%;
-      margin:0;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
 
-    /* full-screen canvas */
-    .canvas{
-      min-height:100vh;
-      background: var(--bg-dark);
-      position:relative;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:flex-start; /* content sits left like the photo */
-    }
+        .spec-main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            background: #fff;
+        }
 
-    /* left vertical darker strip (like image) */
-    .canvas::before{
-      content:"";
-      position:absolute;
-      left:6vmin; /* distance from left edge */
-      top:0;
-      bottom:0;
-      width:9vmin; /* thickness of the dark strip */
-      background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.95));
-      z-index:5;
-      pointer-events:none;
-    }
+        .spec-main-title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 60px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
 
-    /*
-      Concentric rings are made with several radial-gradients stacked as the
-      element's background. Each radial gradient is centered at the right side
-      (100% 50%) so the circles appear cut off along the right edge like the image.
-    */
-    .rings{
-      position:absolute;
-      inset:0; /* cover whole canvas */
-      z-index:1;
-      pointer-events:none;
-      /* stack of radial gradients => inner-most listed first */
-      background-image:
-        /* inner circle (lightest) */
-        radial-gradient(circle at 100% 50%,
-          rgba(180,170,170,0.30) 0 calc(var(--ring-1) - 0.5vmin),
-          rgba(180,170,170,0.18) calc(var(--ring-1) - 0.5vmin) calc(var(--ring-1) + 3vmin),
-          transparent calc(var(--ring-1) + 3vmin)
-        ),
-        /* next ring */
-        radial-gradient(circle at 100% 50%,
-          rgba(160,150,150,0.22) 0 calc(var(--ring-2) - 0.5vmin),
-          rgba(160,150,150,0.14) calc(var(--ring-2) - 0.5vmin) calc(var(--ring-2) + 3vmin),
-          transparent calc(var(--ring-2) + 3vmin)
-        ),
-        /* middle ring */
-        radial-gradient(circle at 100% 50%,
-          rgba(140,130,130,0.20) 0 calc(var(--ring-3) - 0.5vmin),
-          rgba(140,130,130,0.12) calc(var(--ring-3) - 0.5vmin) calc(var(--ring-3) + 3vmin),
-          transparent calc(var(--ring-3) + 3vmin)
-        ),
-        /* next */
-        radial-gradient(circle at 100% 50%,
-          rgba(120,115,115,0.18) 0 calc(var(--ring-4) - 0.5vmin),
-          rgba(120,115,115,0.10) calc(var(--ring-4) - 0.5vmin) calc(var(--ring-4) + 3vmin),
-          transparent calc(var(--ring-4) + 3vmin)
-        ),
-        /* large outer rings */
-        radial-gradient(circle at 100% 50%,
-          rgba(100,96,96,0.20) 0 calc(var(--ring-5) - 0.5vmin),
-          rgba(100,96,96,0.12) calc(var(--ring-5) - 0.5vmin) calc(var(--ring-5) + 3vmin),
-          transparent calc(var(--ring-5) + 3vmin)
-        ),
-        radial-gradient(circle at 100% 50%,
-          rgba(80,78,78,0.24) 0 calc(var(--ring-6) - 0.5vmin),
-          rgba(80,78,78,0.14) calc(var(--ring-6) - 0.5vmin) calc(var(--ring-6) + 3vmin),
-          transparent calc(var(--ring-6) + 3vmin)
-        );
-      background-repeat:no-repeat;
-      background-position: 0 0;
-      background-size: cover;
-      mix-blend-mode: normal;
-      filter: blur(0.2px); /* tiny blur for soft edges */
-    }
+        .spec-category-wrapper {
+            margin-bottom: 80px;
+        }
 
-    /* optional content area on the left so you can place text or cards */
-    .content{
-      position:relative;
-      z-index:10;
-      width:64%;
-      max-width:1200px;
-      padding:6vmin;
-      color:#eee;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
+        .spec-category-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
-    h1{
-      margin:0 0 1rem 0;
-      font-size:clamp(2rem,4vw,3.6rem);
-      font-weight:600;
-      letter-spacing: -0.02em;
-    }
-    p{opacity:0.7; margin:0; line-height:1.5;}
-    /* responsive tweaks to keep rings large on small screens */
-    @media (max-width:600px){
-      :root{
-        --ring-1: 12vmin;
-        --ring-2: 26vmin;
-        --ring-3: 38vmin;
-        --ring-4: 50vmin;
-        --ring-5: 66vmin;
-        --ring-6: 86vmin;
-      }
-      .canvas::before{ left:4vmin; width:12vmin; }
-      .content{ width:78%; padding:5vmin; }
-    }
-  </style>
+        .spec-category-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            letter-spacing: 1.5px;
+        }
+
+        .spec-category-divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            margin: 0 auto;
+        }
+
+        .spec-slider-container {
+            position: relative;
+            padding: 0 60px;
+        }
+
+        .spec-slider-track {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .spec-slider-wrapper {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .spec-slide-item {
+            min-width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spec-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .spec-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .spec-icon-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .spec-card-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .spec-card-description {
+            font-size: 15px;
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .spec-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .spec-nav-btn:hover {
+            background: #3498db;
+            border-color: #3498db;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .spec-nav-btn:hover .spec-arrow {
+            border-color: white;
+        }
+
+        .spec-nav-btn.spec-prev {
+            left: 0;
+        }
+
+        .spec-nav-btn.spec-next {
+            right: 0;
+        }
+
+        .spec-arrow {
+            width: 12px;
+            height: 12px;
+            border-top: 3px solid #2c3e50;
+            border-right: 3px solid #2c3e50;
+            transition: border-color 0.3s ease;
+        }
+
+        .spec-arrow.spec-left {
+            transform: rotate(-135deg);
+            margin-left: 4px;
+        }
+
+        .spec-arrow.spec-right {
+            transform: rotate(45deg);
+            margin-right: 4px;
+        }
+
+        .spec-dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .spec-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spec-dot.spec-active {
+            background: #3498db;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        /* Tablet Responsive */
+        @media (max-width: 768px) {
+            .spec-main-title {
+                font-size: 32px;
+                margin-bottom: 40px;
+            }
+
+            .spec-category-title {
+                font-size: 22px;
+            }
+
+            .spec-slider-container {
+                padding: 0 50px;
+            }
+
+            .spec-card {
+                padding: 30px 20px;
+            }
+
+            .spec-icon-container {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
+
+            .spec-card-title {
+                font-size: 19px;
+            }
+
+            .spec-card-description {
+                font-size: 14px;
+            }
+
+            .spec-nav-btn {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            .spec-main-container {
+                padding: 40px 10px;
+            }
+
+            .spec-main-title {
+                font-size: 26px;
+                letter-spacing: 2px;
+                margin-bottom: 30px;
+            }
+
+            .spec-category-wrapper {
+                margin-bottom: 50px;
+            }
+
+            .spec-category-title {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+            .spec-slider-container {
+                padding: 0 40px;
+            }
+
+            .spec-card {
+                padding: 25px 15px;
+            }
+
+            .spec-icon-container {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+                margin-bottom: 20px;
+            }
+
+            .spec-card-title {
+                font-size: 17px;
+                margin-bottom: 12px;
+            }
+
+            .spec-card-description {
+                font-size: 13px;
+            }
+
+            .spec-nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .spec-arrow {
+                width: 10px;
+                height: 10px;
+                border-width: 2px;
+            }
+
+            .spec-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .spec-dot.spec-active {
+                width: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="canvas" role="img" aria-label="Dark background with concentric soft rings on the right">
-    <div class="rings" aria-hidden="true"></div>
+    <div class="spec-main-container">
+        <h1 class="spec-main-title">SPECIFICATIONS</h1>
 
-    <div class="content">
-      <h1>Concentric Rings — right side</h1>
-      <p>This layout recreates the image with stacked radial gradients centered at the right edge. Tweak the <code>--ring-*</code> variables in :root to change ring sizes and spacing.</p>
+        <!-- STRUCTURES Section -->
+        <div class="spec-category-wrapper">
+            <div class="spec-category-header">
+                <h2 class="spec-category-title">STRUCTURES</h2>
+                <div class="spec-category-divider"></div>
+            </div>
+            <div class="spec-slider-container">
+                <div class="spec-slider-track" data-spec-slider="structures">
+                    <div class="spec-slider-wrapper">
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🏗️</div>
+                                <h3 class="spec-card-title">Masonry</h3>
+                                <p class="spec-card-description">Aluminium form work CC wall</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🎨</div>
+                                <h3 class="spec-card-title">Painting</h3>
+                                <p class="spec-card-description">Internal painting in premium emulsion. External painting in quality water proof emulsion</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🪟</div>
+                                <h3 class="spec-card-title">Parapets</h3>
+                                <p class="spec-card-description">A combination of Stainless steel and toughened laminated glass</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="spec-nav-btn spec-prev" data-spec-nav="structures-prev">
+                    <div class="spec-arrow spec-left"></div>
+                </button>
+                <button class="spec-nav-btn spec-next" data-spec-nav="structures-next">
+                    <div class="spec-arrow spec-right"></div>
+                </button>
+                <div class="spec-dots-container" data-spec-dots="structures"></div>
+            </div>
+        </div>
+
+        <!-- FLOORING & DADO STRUCTURES Section -->
+        <div class="spec-category-wrapper">
+            <div class="spec-category-header">
+                <h2 class="spec-category-title">FLOORING & DADO STRUCTURES</h2>
+                <div class="spec-category-divider"></div>
+            </div>
+            <div class="spec-slider-container">
+                <div class="spec-slider-track" data-spec-slider="flooring">
+                    <div class="spec-slider-wrapper">
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🍽️</div>
+                                <h3 class="spec-card-title">Living & Dining</h3>
+                                <p class="spec-card-description">Quality Italian Marble laid with paper joints and finished with mirror polish</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🌅</div>
+                                <h3 class="spec-card-title">Balcony</h3>
+                                <p class="spec-card-description">Wood finish designer tiles</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🛏️</div>
+                                <h3 class="spec-card-title">Master Bedroom</h3>
+                                <p class="spec-card-description">Superior grade composite wooden flooring</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🚪</div>
+                                <h3 class="spec-card-title">Other Bedroom</h3>
+                                <p class="spec-card-description">Designer vitrified tiles</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🛁</div>
+                                <h3 class="spec-card-title">Bathrooms</h3>
+                                <p class="spec-card-description">Choice of anti skid superior vitrified tiles / porcelain and glass mosaic tiles on the floor and dado</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="spec-nav-btn spec-prev" data-spec-nav="flooring-prev">
+                    <div class="spec-arrow spec-left"></div>
+                </button>
+                <button class="spec-nav-btn spec-next" data-spec-nav="flooring-next">
+                    <div class="spec-arrow spec-right"></div>
+                </button>
+                <div class="spec-dots-container" data-spec-dots="flooring"></div>
+            </div>
+        </div>
+
+        <!-- SANITARY & PLUMBING Section -->
+        <div class="spec-category-wrapper">
+            <div class="spec-category-header">
+                <h2 class="spec-category-title">SANITARY & PLUMBING</h2>
+                <div class="spec-category-divider"></div>
+            </div>
+            <div class="spec-slider-container">
+                <div class="spec-slider-track" data-spec-slider="sanitary">
+                    <div class="spec-slider-wrapper">
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🚰</div>
+                                <h3 class="spec-card-title">Sanitaryware</h3>
+                                <p class="spec-card-description">EWC's and washbasins of TOTO / equivalent make in bathrooms</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">💧</div>
+                                <h3 class="spec-card-title">Health Faucets</h3>
+                                <p class="spec-card-description">TOTO / Shower Spray, Chrome, d.s LPH GREEN ITEM / equivalent make</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🪝</div>
+                                <h3 class="spec-card-title">Cockroach Traps</h3>
+                                <p class="spec-card-description">Chilly / equivalent make detachable stainless steel cockroach traps</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🚿</div>
+                                <h3 class="spec-card-title">Shower Cubicles</h3>
+                                <p class="spec-card-description">Glass shower partitions / cubicles for shower areas in all bathrooms</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="spec-nav-btn spec-prev" data-spec-nav="sanitary-prev">
+                    <div class="spec-arrow spec-left"></div>
+                </button>
+                <button class="spec-nav-btn spec-next" data-spec-nav="sanitary-next">
+                    <div class="spec-arrow spec-right"></div>
+                </button>
+                <div class="spec-dots-container" data-spec-dots="sanitary"></div>
+            </div>
+        </div>
+
+        <!-- DOORS & WINDOWS Section -->
+        <div class="spec-category-wrapper">
+            <div class="spec-category-header">
+                <h2 class="spec-category-title">DOORS & WINDOWS</h2>
+                <div class="spec-category-divider"></div>
+            </div>
+            <div class="spec-slider-container">
+                <div class="spec-slider-track" data-spec-slider="doors">
+                    <div class="spec-slider-wrapper">
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🚪</div>
+                                <h3 class="spec-card-title">Door Frames</h3>
+                                <p class="spec-card-description">Teakwood for main door. Hardwood frame for internal / other doors</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🪟</div>
+                                <h3 class="spec-card-title">Door Shutters</h3>
+                                <p class="spec-card-description">The main door is teak wood. Designer veneered doors for all other /internal doors</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🏠</div>
+                                <h3 class="spec-card-title">Windows</h3>
+                                <p class="spec-card-description">Environment friendly, flame retardant UPVC windows / equivalent</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🛑</div>
+                                <h3 class="spec-card-title">Door Stoppers</h3>
+                                <p class="spec-card-description">Magnetic door stoppers shall be provided for the main door and bedroom doors</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="spec-nav-btn spec-prev" data-spec-nav="doors-prev">
+                    <div class="spec-arrow spec-left"></div>
+                </button>
+                <button class="spec-nav-btn spec-next" data-spec-nav="doors-next">
+                    <div class="spec-arrow spec-right"></div>
+                </button>
+                <div class="spec-dots-container" data-spec-dots="doors"></div>
+            </div>
+        </div>
+
+        <!-- ELECTRICAL & TELECOM Section -->
+        <div class="spec-category-wrapper">
+            <div class="spec-category-header">
+                <h2 class="spec-category-title">ELECTRICAL & TELECOM</h2>
+                <div class="spec-category-divider"></div>
+            </div>
+            <div class="spec-slider-container">
+                <div class="spec-slider-track" data-spec-slider="electrical">
+                    <div class="spec-slider-wrapper">
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">⚡</div>
+                                <h3 class="spec-card-title">Wiring</h3>
+                                <p class="spec-card-description">Fire retardant multi-strand copper wires will be used throughout with concealed PVC conduits</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">💡</div>
+                                <h3 class="spec-card-title">Lighting</h3>
+                                <p class="spec-card-description">Generous number of light point provisions in all other habitable places</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🔋</div>
+                                <h3 class="spec-card-title">Power Backup</h3>
+                                <p class="spec-card-description">DG backup for all homes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="spec-nav-btn spec-prev" data-spec-nav="electrical-prev">
+                    <div class="spec-arrow spec-left"></div>
+                </button>
+                <button class="spec-nav-btn spec-next" data-spec-nav="electrical-next">
+                    <div class="spec-arrow spec-right"></div>
+                </button>
+                <div class="spec-dots-container" data-spec-dots="electrical"></div>
+            </div>
+        </div>
+
+        <!-- SERVICES Section -->
+        <div class="spec-category-wrapper">
+            <div class="spec-category-header">
+                <h2 class="spec-category-title">SERVICES</h2>
+                <div class="spec-category-divider"></div>
+            </div>
+            <div class="spec-slider-container">
+                <div class="spec-slider-track" data-spec-slider="services">
+                    <div class="spec-slider-wrapper">
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🛗</div>
+                                <h3 class="spec-card-title">Elevators</h3>
+                                <p class="spec-card-description">Five high speed passenger elevators of Mitsubishi / equivalent brand. Elevators will have multi-beam sensors for door operation and down collective system</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">💧</div>
+                                <h3 class="spec-card-title">Water Treatment Plant</h3>
+                                <p class="spec-card-description">Fully treated water made available through and exclusive water softening and purification plant</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🚰</div>
+                                <h3 class="spec-card-title">Sewage Treatment Plant</h3>
+                                <p class="spec-card-description">A tertiary sewage treatment plant with separate plumbing will enable the usage of treated water</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🌧️</div>
+                                <h3 class="spec-card-title">Rainwater Harvesting</h3>
+                                <p class="spec-card-description">Rainwater harvesting to water treatment plant and through percolation pits for recharging the groundwater table</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="spec-nav-btn spec-prev" data-spec-nav="services-prev">
+                    <div class="spec-arrow spec-left"></div>
+                </button>
+                <button class="spec-nav-btn spec-next" data-spec-nav="services-next">
+                    <div class="spec-arrow spec-right"></div>
+                </button>
+                <div class="spec-dots-container" data-spec-dots="services"></div>
+            </div>
+        </div>
+
+        <!-- HOME SECURITY SYSTEMS Section -->
+        <div class="spec-category-wrapper">
+            <div class="spec-category-header">
+                <h2 class="spec-category-title">HOME SECURITY SYSTEMS</h2>
+                <div class="spec-category-divider"></div>
+            </div>
+            <div class="spec-slider-container">
+                <div class="spec-slider-track" data-spec-slider="security">
+                    <div class="spec-slider-wrapper">
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">📱</div>
+                                <h3 class="spec-card-title">Networked Video Door Phones</h3>
+                                <p class="spec-card-description">A state of the art networked color video door phone</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">🔒</div>
+                                <h3 class="spec-card-title">Security</h3>
+                                <p class="spec-card-description">Provided in common areas</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">📶</div>
+                                <h3 class="spec-card-title">Power Outlets</h3>
+                                <p class="spec-card-description">WIFI point in living area</p>
+                            </div>
+                        </div>
+                        <div class="spec-slide-item">
+                            <div class="spec-card">
+                                <div class="spec-icon-container">📹</div>
+                                <h3 class="spec-card-title">IP Camera</h3>
+                                <p class="spec-card-description">High resolution network cameras shall be provided in designated common areas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="spec-nav-btn spec-prev" data-spec-nav="security-prev">
+                    <div class="spec-arrow spec-left"></div>
+                </button>
+                <button class="spec-nav-btn spec-next" data-spec-nav="security-next">
+                    <div class="spec-arrow spec-right"></div>
+                </button>
+                <div class="spec-dots-container" data-spec-dots="security"></div>
+            </div>
+        </div>
+
+        <img src="./Imges/1-01.png" alt="">
+        <img src="./Imges/1-02.png" alt="">
     </div>
-  </div>
+
+    <script>
+        class SpecificationSlider {
+            constructor(sliderName) {
+                this.sliderName = sliderName;
+                this.currentSlideIndex = 0;
+                this.autoPlayInterval = null;
+                this.autoPlayDelay = 4000;
+                
+                this.sliderTrack = document.querySelector(`[data-spec-slider="${sliderName}"]`);
+                this.sliderWrapper = this.sliderTrack.querySelector('.spec-slider-wrapper');
+                this.slides = this.sliderWrapper.querySelectorAll('.spec-slide-item');
+                this.totalSlides = this.slides.length;
+                
+                this.prevBtn = document.querySelector(`[data-spec-nav="${sliderName}-prev"]`);
+                this.nextBtn = document.querySelector(`[data-spec-nav="${sliderName}-next"]`);
+                this.dotsContainer = document.querySelector(`[data-spec-dots="${sliderName}"]`);
+                
+                this.init();
+            }
+            
+            init() {
+                this.createDots();
+                this.attachEventListeners();
+                this.updateSlider();
+                this.startAutoPlay();
+            }
+            
+            createDots() {
+                for (let i = 0; i < this.totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('spec-dot');
+                    if (i === 0) dot.classList.add('spec-active');
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    this.dotsContainer.appendChild(dot);
+                }
+            }
+            
+            attachEventListeners() {
+                this.prevBtn.addEventListener('click', () => {
+                    this.stopAutoPlay();
+                    this.prevSlide();
+                    this.startAutoPlay();
+                });
+                
+                this.nextBtn.addEventListener('click', () => {
+                    this.stopAutoPlay();
+                    this.nextSlide();
+                    this.startAutoPlay();
+                });
+                
+                // Pause on hover
+                this.sliderTrack.addEventListener('mouseenter', () => this.stopAutoPlay());
+                this.sliderTrack.addEventListener('mouseleave', () => this.startAutoPlay());
+            }
+            
+            updateSlider() {
+                const translateX = -this.currentSlideIndex * 100;
+                this.sliderWrapper.style.transform = `translateX(${translateX}%)`;
+                this.updateDots();
+            }
+            
+            updateDots() {
+                const dots = this.dotsContainer.querySelectorAll('.spec-dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('spec-active', index === this.currentSlideIndex);
+                });
+            }
+            
+            nextSlide() {
+                this.currentSlideIndex = (this.currentSlideIndex + 1) % this.totalSlides;
+                this.updateSlider();
+            }
+            
+            prevSlide() {
+                this.currentSlideIndex = (this.currentSlideIndex - 1 + this.totalSlides) % this.totalSlides;
+                this.updateSlider();
+            }
+            
+            goToSlide(index) {
+                this.stopAutoPlay();
+                this.currentSlideIndex = index;
+                this.updateSlider();
+                this.startAutoPlay();
+            }
+            
+            startAutoPlay() {
+                this.autoPlayInterval = setInterval(() => {
+                    this.nextSlide();
+                }, this.autoPlayDelay);
+            }
+            
+            stopAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                }
+            }
+        }
+        
+        // Initialize all sliders
+        const specSliders = [
+            'structures',
+            'flooring',
+            'sanitary',
+            'doors',
+            'electrical',
+            'services',
+            'security'
+        ];
+        
+        specSliders.forEach(sliderName => {
+            new SpecificationSlider(sliderName);
+        });
+    </script>
 </body>
 </html>

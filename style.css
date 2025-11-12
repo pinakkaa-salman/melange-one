@@ -588,7 +588,7 @@ body {
   text-align: center;
 }
 .masterplan-content-wrapper {
-  width: 100%;
+  width: 120%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2772,7 +2772,7 @@ p {
     }
   
     .projects-points-wrapper li {
-      font-size: 9px;
+      font-size: 11px;
     }
   
     /* .project-arrow {
@@ -2831,7 +2831,8 @@ p {
   
     .amenities-card-title,
     .amenities-card-title-black {
-      font-size: 9.5px;
+      font-size: 11px;
+      font-weight: bold;
     }
   
     .amenities-arrows {
@@ -2901,7 +2902,7 @@ p {
   
     /* Masterplan Section */
     .masterplan-section-wrapper {
-      padding: 4rem 0;
+      /* padding: 4rem 0; */
       gap: 2.5rem;
     }
   
@@ -3148,7 +3149,7 @@ p {
          and (orientation: landscape) {
     
     .hero-section {
-      min-height: 110vh;
+      min-height: 180vh;
     }
   
     .showcase-section-wrapper {
@@ -3470,7 +3471,7 @@ p {
 .project-bg-1{
   position: absolute;
   width: 384px;
-  height: 417px;
+  height: 417px;x`
   top: 0;
   left: -12%;
 }

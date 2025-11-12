@@ -1296,6 +1296,12 @@ p {
   font-family: "Inter", sans-serif;
   color: #fff;
 }
+.location-description-title {
+  font-size: 40px;
+  font-weight: 400;
+  font-family: "Montaga", serif;
+  color: #fff;
+}
 
 
 .location-section {
@@ -1341,11 +1347,12 @@ p {
 .location-description {
   flex: 1;
   min-width: 300px;
-  max-width: 600px;
+  max-width: 530px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5.5rem;
 }
 
 .location-description p {
